@@ -11,11 +11,68 @@ const state = {
 const SUBSTACK_URL = 'https://anilgopakumar.substack.com/feed';
 const RSS2JSON_API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(SUBSTACK_URL)}`;
 
+// Visited States Configuration (49 States Visited, 1 State 'AK' as Explore placeholder)
+// Paste your Google Photos Shared Album links into albumUrl to link them directly to the map!
+const travelHistory = {
+  "AL": { name: "Alabama", visited: true, year: "2019", note: "Riding through the heart of the South, exploring historic routes.", albumUrl: "" },
+  "AK": { name: "Alaska", visited: false, year: "", note: "One final frontier to explore on two wheels.", albumUrl: "" },
+  "AZ": { name: "Arizona", visited: true, year: "2020", note: "Cruising the desert highways and canyons under dramatic skies.", albumUrl: "" },
+  "AR": { name: "Arkansas", visited: true, year: "2019", note: "Riding the winding mountain curves of the Ozarks.", albumUrl: "" },
+  "CA": { name: "California", visited: true, year: "2021", note: "Riding the iconic twists of the Pacific Coast Highway.", albumUrl: "" },
+  "CO": { name: "Colorado", visited: true, year: "2020", note: "Tackling high-altitude mountain passes and Rockies views.", albumUrl: "" },
+  "CT": { name: "Connecticut", visited: true, year: "2022", note: "Cruising through beautiful New England historic towns.", albumUrl: "" },
+  "DE": { name: "Delaware", visited: true, year: "2022", note: "Scenic coastal rides along the Delaware Bay.", albumUrl: "" },
+  "FL": { name: "Florida", visited: true, year: "2019", note: "Cruising along the Overseas Highway through the Florida Keys.", albumUrl: "" },
+  "GA": { name: "Georgia", visited: true, year: "2019", note: "Exploring historic roads, Spanish moss, and Southern paths.", albumUrl: "" },
+  "HI": { name: "Hawaii", visited: true, year: "2023", note: "Exploring the volcanic coastlines and tropical routes of the islands.", albumUrl: "" },
+  "ID": { name: "Idaho", visited: true, year: "2021", note: "Riding through rugged river canyons and forest routes.", albumUrl: "" },
+  "IL": { name: "Illinois", visited: true, year: "2018", note: "Starting journeys along the classic Route 66 corridors.", albumUrl: "" },
+  "IN": { name: "Indiana", visited: true, year: "2018", note: "Scenic rides through Midwest farmlands and state forests.", albumUrl: "" },
+  "IA": { name: "Iowa", visited: true, year: "2018", note: "Cruising the rolling hills and crossing the Mississippi River routes.", albumUrl: "" },
+  "KS": { name: "Kansas", visited: true, year: "2020", note: "Expansive horizons and endless open skies along the plains.", albumUrl: "" },
+  "KY": { name: "Kentucky", visited: true, year: "2019", note: "Riding through beautiful horse country and rolling bluegrass hills.", albumUrl: "" },
+  "LA": { name: "Louisiana", visited: true, year: "2019", note: "Cruising bayou routes and exploring unique Cajun country roads.", albumUrl: "" },
+  "ME": { name: "Maine", visited: true, year: "2022", note: "Lighthouses, rocky shores, and Acadia coastal highways.", albumUrl: "" },
+  "MD": { name: "Maryland", visited: true, year: "2022", note: "Scenic loops around Chesapeake Bay and historic sites.", albumUrl: "" },
+  "MA": { name: "Massachusetts", visited: true, year: "2022", note: "Exploring Cape Cod loops and historic colonial roads.", albumUrl: "" },
+  "MI": { name: "Michigan", visited: true, year: "2018", note: "Michigan coast, lighthouses & unpaved logging roads in Free Soil.", albumUrl: "" },
+  "MN": { name: "Minnesota", visited: true, year: "2018", note: "Cruising along the scenic North Shore of Lake Superior.", albumUrl: "" },
+  "MS": { name: "Mississippi", visited: true, year: "2019", note: "Riding the historic Natchez Trace Parkway.", albumUrl: "" },
+  "MO": { name: "Missouri", visited: true, year: "2019", note: "Exploring the winding roads of the Ozarks and Route 66 landmarks.", albumUrl: "" },
+  "MT": { name: "Montana", visited: true, year: "2021", note: "Riding the Going-to-the-Sun Road in Glacier National Park.", albumUrl: "" },
+  "NE": { name: "Nebraska", visited: true, year: "2020", note: "Following the historic Platte River valley trails westward.", albumUrl: "" },
+  "NV": { name: "Nevada", visited: true, year: "2021", note: "Crossing the vast, desolate stretches of the Loneliest Road in America.", albumUrl: "" },
+  "NH": { name: "New Hampshire", visited: true, year: "2022", note: "Carving through the White Mountains and the Kancamagus Highway.", albumUrl: "" },
+  "NJ": { name: "New Jersey", visited: true, year: "2022", note: "Scenic coastal rides along the Delaware Water Gap.", albumUrl: "" },
+  "NM": { name: "New Mexico", visited: true, year: "2020", note: "Exploring red rock mesas, high deserts, and adobe villages.", albumUrl: "" },
+  "NY": { name: "New York", visited: true, year: "2022", note: "Cruising upstate mountain routes, the Adirondacks, and Hudson Valley.", albumUrl: "" },
+  "NC": { name: "North Carolina", visited: true, year: "2019", note: "Riding the breathtaking heights of the Blue Ridge Parkway.", albumUrl: "" },
+  "ND": { name: "North Dakota", visited: true, year: "2021", note: "Exploring the rugged beauty of the Theodore Roosevelt Badlands.", albumUrl: "" },
+  "OH": { name: "Ohio", visited: true, year: "2018", note: "Winding state routes through the scenic Hocking Hills.", albumUrl: "" },
+  "OK": { name: "Oklahoma", visited: true, year: "2020", note: "Tracing the classic red dirt stretches of historic Route 66.", albumUrl: "" },
+  "OR": { name: "Oregon", visited: true, year: "2021", note: "Winding coastal cliffs, towering pines, and Columbia River Gorge views.", albumUrl: "" },
+  "PA": { name: "Pennsylvania", visited: true, year: "2022", note: "Crossing historic covered bridges and Allegheny forest routes.", albumUrl: "" },
+  "RI": { name: "Rhode Island", visited: true, year: "2022", note: "Coastal loops through historic Newport and Narragansett Bay.", albumUrl: "" },
+  "SC": { name: "South Carolina", visited: true, year: "2019", note: "Warm Southern breeze along the Atlantic coastal marshes.", albumUrl: "" },
+  "SD": { name: "South Dakota", visited: true, year: "2021", note: "Riding Badlands loops, Iron Mountain Road, and the Black Hills.", albumUrl: "" },
+  "TN": { name: "Tennessee", visited: true, year: "2019", note: "Cruising the Great Smoky Mountains and winding valley roads.", albumUrl: "" },
+  "TX": { name: "Texas", visited: true, year: "2020", note: "Cruising the massive, open expanses of West Texas and Hill Country.", albumUrl: "" },
+  "UT": { name: "Utah", visited: true, year: "2020", note: "Carving through the dramatic red rock canyons of Zion and Bryce.", albumUrl: "" },
+  "VT": { name: "Vermont", visited: true, year: "2022", note: "Riding green valleys, gap roads, and seeing autumn foliage colors.", albumUrl: "" },
+  "VA": { name: "Virginia", visited: true, year: "2019", note: "Cruising the Blue Ridge Parkway and Skyline Drive summits.", albumUrl: "" },
+  "WA": { name: "Washington", visited: true, year: "2021", note: "Exploring the Olympic Peninsula loop and misty rainforest routes.", albumUrl: "" },
+  "WV": { name: "West Virginia", visited: true, year: "2019", note: "Carving the tight, challenging curves of the Appalachian mountains.", albumUrl: "" },
+  "WI": { name: "Wisconsin", visited: true, year: "2018", note: "Exploring the quiet, scenic roads along the Door County Peninsula.", albumUrl: "" },
+  "WY": { name: "Wyoming", visited: true, year: "2021", note: "Grand Teton passes, Yellowstone hot springs, and high plains.", albumUrl: "" },
+  "DC": { name: "Washington D.C.", visited: true, year: "2022", note: "Riding around the historic national malls and monument circles.", albumUrl: "" }
+};
+
 // Initialize Application on Page Load
 document.addEventListener('DOMContentLoaded', () => {
   setupNavbarScroll();
   fetchArticles();
   setupScrollObserver();
+  setupMapInteraction();
 });
 
 // 1. Scroll Event to Add Glassmorphic Styling to Navbar
@@ -374,3 +431,130 @@ function runObserverCheck() {
     }
   });
 }
+
+// 14. Interactive USA Map Hook & State Configuration Load
+function setupMapInteraction() {
+  const mapSvg = document.getElementById('us-map');
+  const tooltip = document.getElementById('map-tooltip');
+  
+  if (!mapSvg || !tooltip) return;
+  
+  // Find all state path elements in the SVG
+  const statePaths = mapSvg.querySelectorAll('.state-path');
+  
+  statePaths.forEach(path => {
+    const stateId = path.getAttribute('id');
+    const info = travelHistory[stateId];
+    
+    // 1. Label and apply 'visited' class styles to the paths
+    if (info && info.visited) {
+      path.classList.add('visited');
+    }
+    
+    // 2. Mouseover Tooltip Trigger
+    path.addEventListener('mouseover', (e) => {
+      if (info) {
+        tooltip.innerHTML = `<strong>${info.name}</strong><br>${info.visited ? `Visited (${info.year})` : 'To Explore'}`;
+        tooltip.style.opacity = '1';
+      }
+    });
+    
+    // 3. Mousemove tracking to keep tooltip aligned to cursor
+    path.addEventListener('mousemove', (e) => {
+      // Offset tooltip from cursor
+      tooltip.style.left = `${e.clientX + 15}px`;
+      tooltip.style.top = `${e.clientY + 15}px`;
+    });
+    
+    // 4. Mouseout Trigger
+    path.addEventListener('mouseout', () => {
+      tooltip.style.opacity = '0';
+    });
+    
+    // 5. Click event to open State Detail Modal
+    path.addEventListener('click', () => {
+      if (info && info.visited) {
+        openStateModal(stateId);
+      } else if (info) {
+        alert(`${info.name} is on my bucket list to explore on a future ride!`);
+      }
+    });
+  });
+}
+
+// 15. Open State Detail Modal with linked Google Photos & Substack Articles
+function openStateModal(stateId) {
+  const modal = document.getElementById('stateModal');
+  const meta = document.getElementById('modalStateMeta');
+  const title = document.getElementById('modalStateTitle');
+  const notes = document.getElementById('modalStateNotes');
+  const substackSection = document.getElementById('modalSubstackSection');
+  const linksContainer = document.getElementById('modalSubstackLinks');
+  const albumBtn = document.getElementById('modalAlbumBtn');
+  
+  const info = travelHistory[stateId];
+  if (!info || !modal) return;
+  
+  // Populate basic metadata
+  meta.textContent = `Visited in ${info.year}`;
+  title.textContent = info.name;
+  notes.textContent = info.note;
+  
+  // Configure Google Photos album CTA
+  if (info.albumUrl && info.albumUrl.trim().length > 0) {
+    albumBtn.href = info.albumUrl;
+    albumBtn.style.display = 'flex';
+  } else {
+    // Elegant fallback: Search Google Photos search engine or link generally
+    albumBtn.href = `https://photos.google.com/search/${encodeURIComponent(info.name)}`;
+    albumBtn.style.display = 'flex';
+    // Optionally change button text to reflect search
+    albumBtn.querySelector('span').textContent = `Search Photos of ${info.name}`;
+  }
+  
+  // Search for matching Substack articles in local state
+  const stateQuery = info.name.toLowerCase();
+  const stateIdQuery = stateId.toLowerCase();
+  
+  const matchingArticles = state.articles.filter(article => {
+    return article.title.toLowerCase().includes(stateQuery) || 
+           article.snippet.toLowerCase().includes(stateQuery) ||
+           article.categories.includes(stateIdQuery) ||
+           article.categories.includes(stateQuery);
+  });
+  
+  linksContainer.innerHTML = '';
+  if (matchingArticles.length > 0) {
+    substackSection.style.display = 'block';
+    matchingArticles.forEach(article => {
+      const a = document.createElement('a');
+      a.className = 'modal-substack-link';
+      a.href = article.link;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.innerHTML = `
+        <span>${article.title}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+      `;
+      linksContainer.appendChild(a);
+    });
+  } else {
+    substackSection.style.display = 'none';
+  }
+  
+  // Show modal
+  modal.classList.add('open');
+}
+
+// 16. Close State Detail Modal Action
+function closeStateModal(event) {
+  const modal = document.getElementById('stateModal');
+  if (!modal) return;
+  
+  if (event === 'force') {
+    modal.classList.remove('open');
+  } else if (event && event.target === modal) {
+    modal.classList.remove('open');
+  }
+}
+
