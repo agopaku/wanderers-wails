@@ -253,7 +253,7 @@ function renderArticles() {
       ? `<img src="${item.imageUrl}" class="blog-img" alt="${item.title}" loading="lazy">`
       : `<div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background: linear-gradient(135deg, #161A26 0%, #0D0E12 100%); color: var(--accent); gap: 10px;">
            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon></svg>
-           <span style="font-size:0.75rem; font-weight:700; letter-spacing: 0.1em; text-transform: uppercase;">Echoes of a Wayfarer</span>
+           <span style="font-size:0.75rem; font-weight:700; letter-spacing: 0.1em; text-transform: uppercase;">Wanderer's Wails</span>
          </div>`;
          
     const card = document.createElement('article');
