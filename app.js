@@ -716,8 +716,8 @@ function renderDynamicTimeline() {
     });
   });
   
-  // Sort oldest to newest
-  events.sort((a, b) => a.year - b.year);
+  // Sort newest to oldest
+  events.sort((a, b) => b.year - a.year);
   
   // Generate and append cards
   events.forEach(event => {
